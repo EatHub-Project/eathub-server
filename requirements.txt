@@ -7,3 +7,5 @@ djangorestframework
 django-filter
 boto==2.19.0
 django-storages==1.1.8
+django-positions==0.5.1
+django-autoslug==1.7.2

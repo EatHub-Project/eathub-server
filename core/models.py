@@ -1,7 +1,8 @@
+from autoslug import AutoSlugField
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models import ForeignKey, CharField, TextField, DateTimeField, BooleanField
-
+from positions.fields import PositionField
 # --- Profile ---
 from eathub import settings
 
@@ -20,21 +21,22 @@ class Profile(AbstractUser):
 
 # --- Recipe ---
 class Recipe(models.Model):
+    slug = AutoSlugField(populate_from='title', unique_with='author')
     title = CharField(max_length=50, blank=False)
     description = TextField(blank=False)
-    creation_date = DateTimeField(auto_now_add=True)
+    author = ForeignKey(settings.AUTH_USER_MODEL, related_name='recipes')
     main_image = models.ImageField(upload_to="images/recipe/", null=False)
-    modification_date = DateTimeField(auto_now_add=True, null=True)
     serves = CharField(max_length=50, blank=False)
-    language = CharField(max_length=50, blank=False)
+    time = models.CharField(max_length=50)
     notes = TextField(null=True)
+    language = CharField(max_length=50, blank=False)
 
     #TODO definir estado mediante un enum
     is_published = BooleanField(default=False)
     is_draft = BooleanField(default=True)
 
-    author = ForeignKey(settings.AUTH_USER_MODEL)
-    time = models.CharField(max_length=50)
+    updated = DateTimeField(auto_now=True, null=True)
+    created = DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
@@ -44,6 +46,22 @@ class Step(models.Model):
     text = models.TextField(blank=False)
     image = models.ImageField(upload_to="images/recipe/", null=True, blank=True)
     recipe = models.ForeignKey(Recipe, related_name='steps')
-    order = models.IntegerField(blank=False)
+    position = PositionField(collection='recipe')
+
+    class Meta:
+        ordering = ['position']
+
+    def __str__(self):
+        return "(%s) %s" % (self.position, self.text)
 
 
+class Ingredient(models.Model):
+    text = models.CharField(max_length=100, blank=False)
+    recipe = models.ForeignKey(Recipe, related_name='ingredients')
+    position = PositionField(collection='recipe')
+
+    class Meta:
+        ordering = ['position']
+
+    def __str__(self):
+        return self.text

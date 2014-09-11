@@ -1,4 +1,4 @@
-from core.models import Profile, Recipe, Step
+from core.models import Profile, Recipe, Step, Ingredient
 from rest_framework import serializers
 
 
@@ -13,11 +13,18 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 class StepSerializer(serializers.ModelSerializer):
     class Meta:
         model = Step
-        fields = ['order', 'text', 'image']
+        fields = ['position', 'text', 'image']
+
+
+class IngredientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ingredient
+        fields = ['position', 'text']
 
 
 class RecipeSerializer(serializers.ModelSerializer):
     steps = StepSerializer(many=True)
+    ingredients = IngredientSerializer(many=True)
 
     class Meta:
         model = Recipe

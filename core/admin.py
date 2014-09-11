@@ -1,4 +1,4 @@
-from core.models import Profile, Recipe, Step
+from core.models import Profile, Recipe, Step, Ingredient
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
@@ -11,8 +11,14 @@ class StepInline(admin.StackedInline):
     extra = 1
 
 
+class IngredientInline(admin.TabularInline):
+    model = Ingredient
+    fields = ['text']
+    extra = 3
+
+
 class RecipeAdmin(admin.ModelAdmin):
-    inlines = [StepInline]
+    inlines = [IngredientInline, StepInline]
 
 
 admin.site.register(Recipe, RecipeAdmin)
