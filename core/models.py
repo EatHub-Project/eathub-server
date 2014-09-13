@@ -15,7 +15,7 @@ class Profile(AbstractUser):
     website = models.URLField(null=True)
     location = models.CharField(max_length=50, null=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return str(self.display_name)
 
 
@@ -38,7 +38,7 @@ class Recipe(models.Model):
     updated = DateTimeField(auto_now=True, null=True)
     created = DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.title
 
 
@@ -51,7 +51,7 @@ class Step(models.Model):
     class Meta:
         ordering = ['position']
 
-    def __str__(self):
+    def __unicode__(self):
         return "(%s) %s" % (self.position, self.text)
 
 
@@ -63,5 +63,5 @@ class Ingredient(models.Model):
     class Meta:
         ordering = ['position']
 
-    def __str__(self):
+    def __unicode__(self):
         return self.text
