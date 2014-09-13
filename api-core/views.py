@@ -1,4 +1,4 @@
-from api.serializers import ProfileSerializer, RecipeSerializer
+from serializers import ProfileSerializer, RecipeSerializer
 from core.models import Profile, Recipe
 from rest_framework import viewsets
 
