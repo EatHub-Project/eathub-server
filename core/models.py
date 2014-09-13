@@ -16,7 +16,7 @@ class Profile(AbstractUser):
     location = models.CharField(max_length=50, null=True)
 
     def __unicode__(self):
-        return str(self.display_name)
+        return self.display_name
 
 
 # --- Recipe ---

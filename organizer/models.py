@@ -14,7 +14,7 @@ class GenericFood(models.Model):
 
 
 class ItemRequirement(models.Model):
-    name = models.CharField(max_length=20, blank=False)
+    name = models.CharField(max_length=100, blank=False)
     generic_food = models.ForeignKey(GenericFood, related_name='item_requirements')
 
     def __unicode__(self):
@@ -33,7 +33,7 @@ class Meal(models.Model):
     name = models.CharField(max_length=20, blank=False)
     position = PositionField(collection="user_day")
     #TODO tag
-    user_day = models.ForeignKey(DayPlan, related_name='meals')
+    day_plan = models.ForeignKey(DayPlan, related_name='meals')
     recipe = models.ForeignKey(Recipe, null=True, blank=True)
     generic_foods = models.ManyToManyField(GenericFood, null=True, blank=True)
 
