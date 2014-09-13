@@ -2,7 +2,6 @@
 media/images/*
 !media/images/*.persist.*
 media/cache/*
-*/migrations/
 
 # Created by http://www.gitignore.io
 
